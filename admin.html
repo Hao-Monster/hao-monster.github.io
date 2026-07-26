@@ -9623,8 +9623,7 @@ Singbox">启用</label>
 					</svg>
 				</button>
 				<!-- GitHub 链接 -->
-				<a href="https://github.com/cmliu/edgetunnel" target="_blank" rel="noopener" class="social-link"
-					title="GitHub">
+				<a href="" target="_blank" rel="noopener" class="social-link" title="GitHub">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 						<path fill="currentColor"
 							d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12Z">
@@ -9632,7 +9631,7 @@ Singbox">启用</label>
 					</svg>
 				</a>
 				<!-- Telegram 链接 -->
-				<a href="https://t.me/CMLiussss" target="_blank" rel="noopener" class="social-link" title="Telegram">
+				<a href="https://t.me/thinderbox" target="_blank" rel="noopener" class="social-link" title="Telegram">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 						<path fill="currentColor"
 							d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12a12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472c-.18 1.898-.962 6.502-1.36 8.627c-.168.9-.499 1.201-.82 1.23c-.696.065-1.225-.46-1.9-.902c-1.056-.693-1.653-1.124-2.678-1.8c-1.185-.78-.417-1.21.258-1.91c.177-.184 3.247-2.977 3.307-3.23c.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345c-.48.33-.913.49-1.302.48c-.428-.008-1.252-.241-1.865-.44c-.752-.245-1.349-.374-1.297-.789c.027-.216.325-.437.893-.663c3.498-1.524 5.83-2.529 6.998-3.014c3.332-1.386 4.025-1.627 4.476-1.635z">
@@ -9642,7 +9641,7 @@ Singbox">启用</label>
 				<div class="social-link social-version is-latest" id="versionBadge" title="当前版本: v2.1.20260617 已是最新"
 					role="button" tabindex="0" onclick="openVersionInfoModal()" onkeydown="onVersionBadgeKeydown(event)"
 					style="display: flex;" data-health="latest">
-					<span id="versionValue">v2.1.20260617</span>
+					<span id="versionValue">微信ChasingDream_2021</span>
 				</div>
 				<!-- 返回顶部按钮 -->
 				<button type="button" class="social-link" title="返回顶部" onclick="scrollToTop()">
@@ -9674,6 +9673,12 @@ Singbox">启用</label>
 					<option value="720">30 天</option>
 					<option value="8760">1 年</option>
 				</select>
+			</div>
+			<div class="form-group">
+				<label for="newSubRequireHwid" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+					<input type="checkbox" id="newSubRequireHwid" checked style="width:auto;margin:0;">
+					<span>需要设备绑定（HWID 防分享）</span>
+				</label>
 			</div>
 			<div class="btn-container" style="justify-content: flex-end; margin-top: 25px;">
 				<button type="button" class="btn btn-secondary" onclick="closeCreateSubModal()">取消</button>
@@ -26163,7 +26168,7 @@ IP区间:
 				subDiv.innerHTML = `
 					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
 						<strong style="font-size: 16px;">${sub.name}</strong>
-						<span style="font-size: 12px; color: ${statusColor};">${isExpired ? '已过期' : '生效中'} | 过期: ${expireText}</span>
+						<span style="font-size: 12px; color: ${statusColor};"><span style="color: ${sub.requireHwid !== false ? '#faad14' : '#8c8c8c'};" title="${sub.requireHwid !== false ? '该订阅已启用 HWID 设备绑定防分享' : '该订阅未启用 HWID 设备绑定'}">${sub.requireHwid !== false ? '🔒HWID' : '🔓无HWID'}</span> | ${isExpired ? '已过期' : '生效中'} | 过期: ${expireText}</span>
 					</div>
 					<div class="input-wrapper subscription-link-wrapper">
 						<input type="text" value="${linkUrl}" readonly>
@@ -26193,12 +26198,13 @@ IP区间:
 		async function submitCreateSub() {
 			const name = document.getElementById('newSubName').value;
 			const expireHours = parseInt(document.getElementById('newSubExpire').value);
+			const requireHwid = document.getElementById('newSubRequireHwid').checked;
 
 			try {
 				const response = await fetch('/admin/sub-links', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ name: name, expireDuration: expireHours })
+					body: JSON.stringify({ name: name, expireDuration: expireHours, requireHwid: requireHwid })
 				});
 				if (response.ok) {
 					const res = await response.json();
@@ -26206,6 +26212,7 @@ IP区间:
 						showToast('新增订阅成功', 'success');
 						closeCreateSubModal();
 						document.getElementById('newSubName').value = '';
+						document.getElementById('newSubRequireHwid').checked = true;
 						loadSubLinks();
 					}
 				}
@@ -26260,7 +26267,7 @@ IP区间:
 					showToast('请输入有效的数字', 'error');
 					return;
 				}
-				
+
 				try {
 					const response = await fetch('/admin/sub-links', {
 						method: 'PUT',
