@@ -2301,6 +2301,66 @@
 			width: 100%;
 		}
 
+		/* HWID 状态直接跟随原生 checked，提交后重置也会同步显示。 */
+		.form-group .hwid-option {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 16px;
+			border: 2px solid var(--input-border);
+			border-radius: 12px;
+			background: var(--input-bg);
+			color: var(--text-primary);
+			cursor: pointer;
+		}
+
+		.form-group .hwid-option:has(input:checked) {
+			border-color: #f6821f;
+			background: rgba(246, 130, 31, .12);
+		}
+
+		.form-group .hwid-option:has(input:focus-visible) {
+			outline: 3px solid #f6821f;
+			outline-offset: 3px;
+		}
+
+		#newSubRequireHwid {
+			flex: 0 0 26px;
+			width: 26px;
+			height: 26px;
+			padding: 0;
+			margin: 0;
+			border: 2px solid #8993a3 !important;
+			border-radius: 6px;
+			background: var(--input-bg) !important;
+			position: relative;
+			cursor: pointer;
+		}
+
+		#newSubRequireHwid:checked {
+			background: #f6821f !important;
+			border-color: #f6821f !important;
+		}
+
+		#newSubRequireHwid:checked::after {
+			content: '';
+			position: absolute;
+			left: 7px;
+			top: 3px;
+			width: 6px;
+			height: 11px;
+			border: solid #241205;
+			border-width: 0 3px 3px 0;
+			transform: rotate(45deg);
+		}
+
+		.hwid-option-copy { flex: 1; min-width: 0; }
+		.hwid-option-title { display: block; font-weight: 600; line-height: 1.5; }
+		.hwid-option-detail { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--text-secondary); }
+		.hwid-state-on { display: none; }
+		#newSubRequireHwid:checked ~ .hwid-option-copy .hwid-state-on { display: inline; }
+		#newSubRequireHwid:checked ~ .hwid-option-copy .hwid-state-off { display: none; }
+
 		/* 复选框样式 */
 		.checkbox-group {
 			display: flex;
@@ -9675,9 +9735,12 @@ Singbox">启用</label>
 				</select>
 			</div>
 			<div class="form-group">
-				<label for="newSubRequireHwid" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-					<input type="checkbox" id="newSubRequireHwid" checked style="width:auto;margin:0;">
-					<span>需要设备绑定（HWID 防分享）</span>
+				<label for="newSubRequireHwid" class="hwid-option">
+					<input type="checkbox" id="newSubRequireHwid" checked aria-labelledby="hwidOptionTitle" aria-describedby="hwidOptionDetail">
+					<span class="hwid-option-copy">
+						<span class="hwid-option-title" id="hwidOptionTitle">设备绑定（HWID 防分享）</span>
+						<span class="hwid-option-detail" id="hwidOptionDetail"><span class="hwid-state-on">已开启 · 需要绑定设备</span><span class="hwid-state-off">已关闭 · 不要求设备绑定</span></span>
+					</span>
 				</label>
 			</div>
 			<div class="btn-container" style="justify-content: flex-end; margin-top: 25px;">
